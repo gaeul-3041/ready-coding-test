@@ -2,19 +2,12 @@ import math
 
 def solution(progresses, speeds):
     answer = []
-    n = len(speeds)
-    finish = [math.ceil((100 - progresses[i]) / speeds[i]) for i in range(n)]
     
-    cnt = 0
-    maxDate = finish[0]
-    
-    for i in range(n):
-        if finish[i] <= maxDate:
-            cnt += 1
+    for progress, speed in zip(progresses, speeds):
+        days = math.ceil((100 - progress) / speed)
+        if not answer or answer[-1][0] < days:
+            answer.append([days, 1])
         else:
-            maxDate = finish[i]
-            answer.append(cnt)
-            cnt = 1
-    
-    answer.append(cnt)
-    return answer
+            answer[-1][1] += 1
+
+    return [ans[1] for ans in answer]
